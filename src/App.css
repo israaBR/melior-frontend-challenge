@@ -1,38 +1,70 @@
-.App {
-  text-align: center;
+header {
+  background-color: #ffffff;
+  width: 100%;
+  height: 80px;
+  text-align-last: center;
+  border-bottom: 1px solid rgb(221, 217, 217);
+}
+header h1 {
+  color: #ffbb1c;
+  font-size: 35px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+section {
+  display: flex;
+  justify-content: space-between;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+section .date-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding-inline: 1%;
+  margin-block: 10%;
+}
+.date-container .date-picker {
+  margin: 2% 5%;
 }
 
-.App-link {
-  color: #61dafb;
+section .chart-container {
+  padding: 5%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/*different screens*/
+@media (min-width: 250px) {
+  section {
+    flex-direction: column;
   }
-  to {
-    transform: rotate(360deg);
+  section .date-container,
+  section .chart-container {
+    flex: 90%;
+    padding: 3%;
+  }
+  .date-container .date-picker {
+    flex: 70%;
+  }
+}
+@media (min-width: 641px) {
+  section {
+    flex-direction: column;
+  }
+  section .date-container,
+  section .chart-container {
+    flex: 90%;
+  }
+  .date-container .date-picker {
+    flex: 45%;
+  }
+}
+@media (min-width: 1008px) {
+  section {
+    flex-direction: row;
+  }
+  section .date-container {
+    flex: 30%;
+  }
+  section .chart-container {
+    flex: 60%;
+  }
+  .date-container .date-picker {
+    flex: 70%;
   }
 }

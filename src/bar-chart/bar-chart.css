@@ -1,0 +1,55 @@
+.bar-chart {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  background: repeating-linear-gradient(
+    to top,
+    #ddd,
+    #ddd 1px,
+    #fff 1px,
+    #fff 15%
+  );
+  height: 250px;
+  width: 75%;
+  padding-inline: 2%;
+  margin-top: auto;
+  margin-bottom: 0%;
+  position: relative;
+  bottom: -55%;
+  right: -15%;
+}
+
+.bar-chart .bar-q2,
+.bar-chart .bar-q4 {
+  width: 2.5%;
+  display: inline-block;
+  position: relative;
+  bottom: -40.5%;
+}
+.bar-chart .bar-q2 {
+  background-color: brown;
+  margin-left: 2%;
+}
+.bar-chart .bar-q4 {
+  background-color: blue;
+  margin-right: 2%;
+}
+
+.bar-chart .chart-key {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  padding: 6px 3px 6px 3px;
+  border: 1px solid rgb(135, 133, 133);
+}
+.chart-key .color-box {
+  width: 40px;
+  height: 15px;
+  display: inline-block;
+  margin-inline: 2px;
+}
+.chart-key .color-title {
+  font-size: 13px;
+  display: inline-block;
+  margin-block: auto;
+  margin-inline: 2px;
+}
