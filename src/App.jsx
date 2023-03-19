@@ -1,112 +1,53 @@
 import "./App.css";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import BarChartComponent from "./bar-chart/bar-chart";
+import BarChartComponent from "./components/bar-chart/bar-chart";
+import DatePickersComponent from "./components/date-pickers/date-pickers";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
-  //!change and validate date values
+  // let [duration, setDuration] = useState({ Y: "", M: "", D: "" });
   let [startDate, setStartDate] = useState({ $y: "", $M: "", $D: "" });
   let [endDate, setEndDate] = useState({ $y: "", $M: "", $D: "" });
-  let [user_msg, setUser_msg] = useState({
-    text: "Please Select Start and End Dates To View Insights",
-    type: "war-msg",
-  });
 
-  const validate_dates = () => {
-    //start & end dates are both selected
-    if (!startDate.$y || !endDate.$y)
-      setUser_msg({
-        text: "Please Select Start and End Dates To View Insights",
-        type: "war-msg",
-      });
-    else {
-      setUser_msg({ text: "", type: "none" });
-      //end date is after start date
-      let endBeforeStart = false;
-      if (startDate.$y > endDate.$y) endBeforeStart = true;
-      else if (startDate.$y == endDate.$y) {
-        if (startDate.$M > endDate.$M) endBeforeStart = true;
-        else if (startDate.$M == endDate.$M && startDate.$D > endDate.$D)
-          endBeforeStart = true;
-      }
-      if (endBeforeStart) {
-        setUser_msg({
-          text: "End date Can't be before start date, please select a valid date.",
-          type: "err-msg",
-        });
-      }
+  // const calculate_duration = () => {
+  //   return {
+  //     Y: endDate.$y - startDate.$y,
+  //     M: endDate.$M - startDate.$M,
+  //     D: endDate.$D - startDate.$D,
+  //   };
+  // };
 
-      //end date is not in the future
-      let current_date = new Date();
-      let endDateInFuture = false;
-      if (endDate.$y > current_date.getFullYear()) endDateInFuture = true;
-      else if (endDate.$y == current_date.getFullYear()) {
-        if (endDate.$M > current_date.getMonth()) endDateInFuture = true;
-        else if (
-          endDate.$M == current_date.getMonth() &&
-          endDate.$D > current_date.getUTCDate()
-        )
-          endDateInFuture = true;
-      }
-      if (endDateInFuture) {
-        setUser_msg({
-          text: "End date can't be in the future, please select a valid date.",
-          type: "err-msg",
-        });
-      }
-
-      //start dates is not in the future
-      let startDateInFuture = false;
-      if (startDate.$y > current_date.getFullYear()) startDateInFuture = true;
-      else if (startDate.$y == current_date.getFullYear()) {
-        if (startDate.$M > current_date.getMonth()) startDateInFuture = true;
-        else if (
-          startDate.$M == current_date.getMonth() &&
-          startDate.$D > current_date.getUTCDate()
-        )
-          startDateInFuture = true;
-      }
-      if (startDateInFuture) {
-        setUser_msg({
-          text: "Start date can't be in the future, please select a valid date.",
-          type: "err-msg",
-        });
-      }
-
-      //if date are valid, get data
-      if (!endBeforeStart && !endDateInFuture && !startDateInFuture) {
-        get_questions();
-        get_answers();
-      }
-    }
-  };
+  //get data from api
+  let [questions, setQuestions] = useState([]);
+  let [feedbacks, setFeedbacks] = useState([]);
 
   useEffect(() => {
-    validate_dates();
+    get_questions();
+    get_feedbacks();
   }, [startDate, endDate]);
 
-  //!get data from api
   const AUTH_TOKEN = "Bearer SLSmxK17vjRInEWIiFQjwE1QIDfeSM";
-
   const get_questions = () => {
     axios
       .get("https://staging.mymelior.com/v1/questions", {
         headers: { Authorization: AUTH_TOKEN },
       })
       .then((result) => {
-        //TODO: HANDLE API DATA
-        console.log(result.data);
+        setQuestions([
+          result.data[0].questions[1],
+          result.data[0].questions[3],
+        ]);
       })
       .catch((error) => {
-        setUser_msg({
-          text: "Sorry, a problem happened while getting the data. Try Again Later.",
-          type: "war-msg",
-        });
+        // setUser_msg({
+        //   text: "Sorry, a problem happened while getting the data. Try Again Later.",
+        //   type: "war-msg",
+        // });
         console.log(error);
       });
   };
-  const get_answers = () => {
+  const get_feedbacks = () => {
     axios
       .get(
         `https://staging.mymelior.com/v0/branches/1/progress?date_from=${
@@ -119,16 +60,55 @@ function App() {
         }
       )
       .then((result) => {
-        //TODO: HANDLE API DATA
-        console.log(result.data);
+        setFeedbacks(result.data.line_chart_data);
       })
       .catch((error) => {
-        setUser_msg(
-          "Sorry, a problem happened while getting the data. Try Again Later."
-        );
+        // setUser_msg({
+        //   text: "Sorry, a problem happened while getting the data. Try Again Later.",
+        //   type: "war-msg",
+        // });
         console.log(error);
       });
   };
+  ///////////////////////////////////////////////////////////////////////
+
+  // let [dataGroups, setDataGroups] = useState();
+  // let [dataAverage, setDataAverage] = useState([]);
+
+  // //TODO: split data into periods based on screen size
+
+  // //! Some Years have 365 days and others have 366
+  // //! Some months have 31 days, others have 30 days and others have 29/28 days
+  // const split_feedbacks = () => {
+  //   if (duration.D != "") {
+  //     if (window.screen.width >= 1008) {
+  //       //TODO: large screen
+  //       //?years == 0, then do nothing
+  //       //?years  %10 != 0, then convert years to months
+  //       //?years %10 == 0, then divides them by 10
+  //       ////Leap Year is divisible by 4
+  //       //?months == 0, then do nothing
+  //       //?months  %10 != 0, then convert months to days
+  //       //?months %10 == 0, then divides them by 10
+  //       ////even months are 30 days and odd are 31
+  //       //?days == 0, then do nothing
+  //       //!days  %10 != 0, then ..
+  //       //?days %10 == 0, then divides them by 10
+  //       // use modlus
+  //       // if(duration.Y % 10 !=0){
+  //       // }
+  //     } else if (window.screen.width >= 641) {
+  //       //TODO: medium screem
+  //     } else {
+  //       //TODO: small screen
+  //     }
+  //   }
+  // };
+  // //TODO calculate average of feedbacks for each period
+  // //TODO represent points on y-axis
+  // //TODO: respresent averages on bars
+
+  ///////////////////////////////////////////////////////////////////////
 
   return (
     <>
@@ -137,26 +117,17 @@ function App() {
       </header>
       <section>
         <div className="date-container">
-          <DatePicker
-            label="Start Date"
-            className="date-picker"
-            onChange={({ $y, $M, $D }) => {
-              // setDates({ ...dates, start: [$y, $M, $D] });
-              setStartDate({ $y, $M, $D });
-            }}
-          />
-          <DatePicker
-            label="End Date"
-            className="date-picker"
-            onChange={({ $y, $M, $D }) => {
-              // setDates({ ...dates, end: [$y, $M, $D] });
-              setEndDate({ $y, $M, $D });
-            }}
-          />
-          {user_msg.text && <p className={user_msg.type}>{user_msg.text}</p>}
+          <DatePickersComponent
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          ></DatePickersComponent>
         </div>
         <div className="chart-container">
-          <BarChartComponent></BarChartComponent>
+          <BarChartComponent
+            questions={questions}
+            y_axis={[]}
+            x_axis={[]}
+          ></BarChartComponent>
         </div>
       </section>
     </>

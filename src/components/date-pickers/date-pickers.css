@@ -1,0 +1,41 @@
+.date-pickers {
+  display: flex;
+  flex-direction: column;
+}
+.date-pickers .date-picker {
+  margin: 2% 5%;
+}
+.date-pickers .err-msg,
+.date-pickers .war-msg {
+  margin-inline: auto;
+  margin-block: 2%;
+  padding: 2% 3%;
+  width: 85%;
+  font-size: 13px;
+  border-radius: 5px;
+}
+.date-pickers .err-msg {
+  color: #7d0303;
+  background-color: #fabfbf;
+}
+.date-pickers .war-msg {
+  color: #000000;
+  background-color: #f5b031;
+}
+
+/*different screens*/
+@media (min-width: 250px) {
+  .date-pickers .date-picker {
+    flex: 70%;
+  }
+}
+@media (min-width: 641px) {
+  .date-pickers .date-picker {
+    flex: 45%;
+  }
+}
+@media (min-width: 1008px) {
+  .date-pickers .date-picker {
+    flex: 70%;
+  }
+}
