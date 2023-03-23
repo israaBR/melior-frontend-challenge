@@ -1,37 +1,32 @@
 import "./bar-chart.css";
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 
-function BarChartComponent({ questions, y_axis, x_axis }) {
+function BarChartComponent({ questions, groups }) {
   return (
     <div className="bar-chart">
-      {/* <Box className="bar-q2" sx={{ height: 240 }} />
-      <Box className="bar-q4" sx={{ height: 120 }} />
-      <Box className="bar-q2" sx={{ height: 100 }} />
-      <Box className="bar-q4" sx={{ height: 150 }} />
-      <Box className="bar-q2" sx={{ height: 150 }} />
-      <Box className="bar-q4" sx={{ height: 120 }} />
-      <Box className="bar-q2" sx={{ height: 150 }} />
-      <Box className="bar-q4" sx={{ height: 120 }} />
-      <Box className="bar-q2" sx={{ height: 140 }} />
-      <Box className="bar-q4" sx={{ height: 120 }} />
-      <Box className="bar-q2" sx={{ height: 150 }} />
-      <Box className="bar-q4" sx={{ height: 120 }} />
-      <Box className="bar-q2" sx={{ height: 120 }} />
-      <Box className="bar-q4" sx={{ height: 150 }} />
-      <Box className="bar-q2" sx={{ height: 150 }} />
-      <Box className="bar-q4" sx={{ height: 120 }} />
-      <Box className="bar-q2" sx={{ height: 150 }} />
-      <Box className="bar-q4" sx={{ height: 120 }} />
-      <Box className="bar-q2" sx={{ height: 130 }} />
-      <Box className="bar-q4" sx={{ height: 100 }} /> */}
+      {groups.map((group, index) => {
+        return (
+          <>
+            <Box className="bar-q2" sx={{ height: group.averageQ2 * 180 }} />
+            <Box className="bar-q4" sx={{ height: group.averageQ4 * 180 }} />
+          </>
+        );
+      })}
+      <div className="y-axis">
+        <p>0.9</p>
+        <p>0.7</p>
+        <p>0.5</p>
+        <p>0.3</p>
+        <p>0.1</p>
+      </div>
       <div className="chart-key">
         <div>
-          <Box className="color-box" sx={{ backgroundColor: "indianred;" }} />
+          <Box className="color-box" sx={{ backgroundColor: "orange" }} />
           {questions[0] && <p className="color-title">{questions[0].text}</p>}
         </div>
         <div>
-          <Box className="color-box" sx={{ backgroundColor: "indigo" }} />
+          <Box className="color-box" sx={{ backgroundColor: "green" }} />
           {questions[1] && <p className="color-title">{questions[1].text}</p>}
         </div>
       </div>

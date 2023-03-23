@@ -43,9 +43,9 @@ function DatePickersComponent({ setStartDate, setEndDate }) {
       let endDateInFuture = false;
       if (end.$y > current_date.getFullYear()) endDateInFuture = true;
       else if (end.$y == current_date.getFullYear()) {
-        if (end.$M > current_date.getMonth()) endDateInFuture = true;
+        if (end.$M > current_date.getMonth() + 1) endDateInFuture = true;
         else if (
-          end.$M == current_date.getMonth() &&
+          end.$M == current_date.getMonth() + 1 &&
           end.$D > current_date.getDate()
         )
           endDateInFuture = true;
@@ -61,9 +61,9 @@ function DatePickersComponent({ setStartDate, setEndDate }) {
       let startDateInFuture = false;
       if (start.$y > current_date.getFullYear()) startDateInFuture = true;
       else if (start.$y == current_date.getFullYear()) {
-        if (start.$M > current_date.getMonth()) startDateInFuture = true;
+        if (start.$M > current_date.getMonth() + 1) startDateInFuture = true;
         else if (
-          start.$M == current_date.getMonth() &&
+          start.$M == current_date.getMonth() + 1 &&
           start.$D > current_date.getDate()
         )
           startDateInFuture = true;
@@ -89,14 +89,14 @@ function DatePickersComponent({ setStartDate, setEndDate }) {
         label="Start Date"
         className="date-picker"
         onChange={({ $y, $M, $D }) => {
-          setStart({ $y, $M, $D });
+          setStart({ $y, $M: $M + 1, $D });
         }}
       />
       <DatePicker
         label="End Date"
         className="date-picker"
         onChange={({ $y, $M, $D }) => {
-          setEnd({ $y, $M, $D });
+          setEnd({ $y, $M: $M + 1, $D });
         }}
       />
       {user_msg.text && <p className={user_msg.type}>{user_msg.text}</p>}

@@ -8,7 +8,7 @@
     #fff 1px,
     #fff 15%
   );
-  height: 350px;
+  height: 300px;
   width: 75%;
   padding-inline: 2%;
   margin-top: auto;
@@ -17,23 +17,27 @@
   top: 35%;
   left: 15%;
 }
-
+.bars-container {
+  display: inline-block;
+}
 .bar-chart .bar-q2,
 .bar-chart .bar-q4 {
-  width: 2.5%;
   display: inline-block;
   position: relative;
-  top: 32%;
+  top: 40%;
 }
 .bar-chart .bar-q2 {
-  background-color: indianred;
+  background-color: orange;
   margin-left: 2%;
 }
 .bar-chart .bar-q4 {
-  background-color: indigo;
+  background-color: green;
   margin-right: 2%;
 }
-
+.bar-chart .y-axis {
+  position: absolute;
+  top: 38%;
+}
 .bar-chart .chart-key {
   position: absolute;
   top: 0%;
@@ -56,8 +60,29 @@
 
 /*different screens*/
 @media (min-width: 250px) {
+  .bar-chart .bar-q2,
+  .bar-chart .bar-q4 {
+    width: 5%;
+  }
+  .bar-chart .y-axis {
+    left: -7%;
+  }
 }
 @media (min-width: 641px) {
+  .bar-chart .bar-q2,
+  .bar-chart .bar-q4 {
+    width: 4%;
+  }
+  .bar-chart .y-axis {
+    left: -5%;
+  }
 }
 @media (min-width: 1008px) {
+  .bar-chart .bar-q2,
+  .bar-chart .bar-q4 {
+    width: 3%;
+  }
+  .bar-chart .y-axis {
+    left: -5%;
+  }
 }
